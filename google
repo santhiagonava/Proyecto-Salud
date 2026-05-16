@@ -1,0 +1,25 @@
+function doPost(e) {
+  var hoja = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var datos = JSON.parse(e.postData.contents);
+
+  // Obtener todas las claves del objeto
+  var claves = Object.keys(datos);
+  
+  // Tomar solo los primeros 10
+  var primeros11 = claves.slice(0, 11);
+  
+  // Crear un array con los valores de los primeros 10
+  var fila = [];
+  for (var i = 0; i < primeros11.length; i++) {
+    fila.push(datos[primeros11[i]]);
+  }
+
+  // Agregar la fila completa
+  hoja.appendRow(fila);
+
+  return ContentService.createTextOutput("OK");
+}
+
+function doGet(e) {
+  return ContentService.createTextOutput("API funcionando");
+}
