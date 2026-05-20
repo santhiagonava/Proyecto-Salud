@@ -1,367 +1,643 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historia Clínica</title>
 
-<html>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-<style>
+  <style>
+    :root {
+      --azul-oscuro: #0a2342;
+      --azul-medio: #1a4a7a;
+      --azul-claro: #2980b9;
+      --acento: #e74c3c;
+      --oro: #c9a84c;
+      --fondo: #f0f4f8;
+      --blanco: #ffffff;
+      --gris-suave: #e8edf3;
+    }
 
-table, th, td {
+    * { box-sizing: border-box; }
 
-  border:1px solid black;
+    body {
+      background: var(--fondo);
+      font-family: 'Source Sans 3', sans-serif;
+      color: #2c3e50;
+      min-height: 100vh;
+    }
 
-}
+    .hc-header {
+      background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 60%, var(--azul-claro) 100%);
+      padding: 2.5rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-</style>
+    .hc-header .logo-wrap {
+      width: 90px;
+      height: 90px;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .hc-header .logo-wrap img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .hc-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: white;
+      margin-bottom: .3rem;
+    }
+
+    .hc-header .subtitulo {
+      color: rgba(255,255,255,0.7);
+      font-size: .85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .hc-header .nom-badge {
+      display: inline-block;
+      background: var(--oro);
+      color: var(--azul-oscuro);
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 3px 14px;
+      border-radius: 20px;
+      margin-top: .6rem;
+    }
+
+    .hc-body {
+      max-width: 960px;
+      margin: -20px auto 3rem;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hc-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(10,35,66,0.08);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .hc-card-header {
+      background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-medio));
+      color: white;
+      padding: .85rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .hc-card-header i {
+      color: var(--oro);
+    }
+
+    .hc-card-header h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .hc-card-body {
+      padding: 1.3rem 1.4rem;
+    }
+
+    .form-label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--azul-medio);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      font-size: .9rem;
+      padding: 7px 12px;
+      background: #fafdff;
+    }
+
+    .sub-label {
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--azul-claro);
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--gris-suave);
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      margin-top: 6px;
+    }
+
+    .vital-box {
+      background: linear-gradient(135deg, #eaf2fb, #f5f8fc);
+      border: 1.5px solid #c5d9ed;
+      border-radius: 10px;
+      padding: .9rem 1rem;
+      text-align: center;
+    }
+
+    .vital-box input {
+      text-align: center;
+      border: none;
+      background: transparent;
+      width: 100%;
+    }
+
+    .btn-enviar {
+      background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-claro));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 50px;
+      font-weight: 700;
+    }
+
+    .hc-footer {
+      background: var(--azul-oscuro);
+      color: rgba(255,255,255,0.85);
+      border-radius: 14px;
+      padding: 1.5rem 1.8rem;
+    }
+
+    .footer-title {
+      color: var(--oro);
+      margin-bottom: .8rem;
+      font-family: 'Playfair Display', serif;
+    }
+  </style>
+</head>
 
 <body>
 
+<div class="hc-header text-center">
+  <div class="logo-wrap">
+    <img src="descarga.png" alt="Logo hospital">
+  </div>
+
+  <p class="subtitulo">Unidad Hospitalaria</p>
+  <h1>Historia Clínica</h1>
+  <span class="nom-badge">NOM-168-SSA1-1998</span>
+</div>
+
+<div class="hc-body">
+
+  <!-- DATOS GENERALES -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-person-vcard-fill"></i>
+      <h2>Datos Generales del Paciente</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <label class="form-label">Médico Tratante</label>
+          <input type="text" class="form-control" id="fname" placeholder="Dr. Ricardo Mendoza Salazar">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Fecha de Historia Clínica</label>
+          <input type="date" class="form-control" id="fcha">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Nombre del Paciente</label>
+          <input type="text" class="form-control" id="name" placeholder="Diego Armando Torres López">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Edad</label>
+          <input type="number" class="form-control" id="ed" placeholder="24">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Sexo</label>
+          <input type="text" class="form-control" id="gen" placeholder="Masculino">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Domicilio</label>
+          <input type="text" class="form-control" id="dom" placeholder="Av. Las Palmas 245, Col. Centro">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="cel" placeholder="664-348-9217">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Familiar Responsable</label>
+          <input type="text" class="form-control" id="data" placeholder="Carlos Torres Ramírez">
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Religión</label>
+          <input type="text" class="form-control" id="rel" placeholder="Católico">
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Fecha de Nacimiento</label>
+          <input type="date" class="form-control" id="na">
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Peso</label>
+          <input type="text" class="form-control" id="ps" placeholder="78 kg">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ANTECEDENTES -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-people-fill"></i>
+      <h2>Antecedentes Heredofamiliares</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <div class="row g-3">
+
+        <div class="col-md-4">
+          <label class="form-label">Diabetes</label>
+          <input type="text" class="form-control" id="AHF_diabetes" placeholder="Padre con diabetes tipo 2">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Hipertensión</label>
+          <input type="text" class="form-control" id="AHF_hipertension" placeholder="Abuelo paterno hipertenso">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Cardiopatías</label>
+          <input type="text" class="form-control" id="AHF_cardiopatias" placeholder="Negadas">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Cáncer</label>
+          <input type="text" class="form-control" id="AHF_cancer" placeholder="Negado">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Enfermedades Mentales</label>
+          <input type="text" class="form-control" id="AHF_mentales" placeholder="Negadas">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Enfermedades Genéticas</label>
+          <input type="text" class="form-control" id="AHF_geneticas" placeholder="Negadas">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Otros</label>
+          <input type="text" class="form-control" id="AHF_otros" placeholder="Tío con antecedentes de asma">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ANTECEDENTES PERSONALES -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-clipboard2-pulse-fill"></i>
+      <h2>Antecedentes Personales Patológicos</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <label class="form-label">Enfermedades Crónicas</label>
+          <input type="text" class="form-control" id="APP_cronicas" placeholder="Niega enfermedades crónicas">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Enfermedades Infecciosas Previas</label>
+          <input type="text" class="form-control" id="APP_infecciosas" placeholder="Varicela en la infancia">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Cirugías Previas</label>
+          <input type="text" class="form-control" id="APP_cirugias" placeholder="Apendicectomía en 2019">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Hospitalizaciones Previas</label>
+          <input type="text" class="form-control" id="APP_hospitalizaciones" placeholder="1 hospitalización por cirugía">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Traumatismos / Accidentes</label>
+          <input type="text" class="form-control" id="APP_traumatismos" placeholder="Caída jugando fútbol con fractura de tobillo izquierdo">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Transfusiones Sanguíneas</label>
+          <input type="text" class="form-control" id="APP_transfusiones" placeholder="Negadas">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- NO PATOLÓGICOS -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-heart-pulse-fill"></i>
+      <h2>Antecedentes Personales No Patológicos</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <div class="row g-3">
+
+        <div class="col-md-4">
+          <label class="form-label">Tabaquismo</label>
+          <input type="text" class="form-control" id="APNP_tabaquismo" placeholder="Ocasional">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Alcoholismo</label>
+          <input type="text" class="form-control" id="APNP_alcoholismo" placeholder="Social fines de semana">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Toxicomanías</label>
+          <input type="text" class="form-control" id="APNP_toxicomanias" placeholder="Negadas">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Alimentación</label>
+          <input type="text" class="form-control" id="APNP_alimentacion" placeholder="Balanceada">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Actividad Física</label>
+          <input type="text" class="form-control" id="APNP_actividad" placeholder="Fútbol 3 veces por semana">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Higiene Personal</label>
+          <input type="text" class="form-control" id="APNP_higiene" placeholder="Adecuada">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Ocupación</label>
+          <input type="text" class="form-control" id="APNP_ocupacion" placeholder="Estudiante universitario">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Condiciones de Vivienda</label>
+          <input type="text" class="form-control" id="APNP_vivienda" placeholder="Casa propia con servicios completos">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERGIAS -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <h2>Antecedentes Alérgicos</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <div class="row g-3">
+
+        <div class="col-md-4">
+          <label class="form-label">Alergia a Medicamentos</label>
+          <input type="text" class="form-control" id="AL_medicamentos" placeholder="Penicilina">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Alergia Alimentaria</label>
+          <input type="text" class="form-control" id="AL_alimentos" placeholder="Negadas">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Alergia Ambiental</label>
+          <input type="text" class="form-control" id="AL_ambiental" placeholder="Polvo">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDICACIÓN -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-capsule-pill"></i>
+      <h2>Medicación Actual</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <div class="row g-3">
+
+        <div class="col-md-5">
+          <label class="form-label">Medicamento</label>
+          <input type="text" class="form-control" id="Medicamento" placeholder="Ibuprofeno 600 mg">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Dosis</label>
+          <input type="text" class="form-control" id="Dosis" placeholder="1 tableta cada 8 horas">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Fecha de Inicio</label>
+          <input type="date" class="form-control" id="FechaInicio">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Suplementos Alimentarios</label>
+          <input type="text" class="form-control" id="Suplementos" placeholder="Calcio y vitamina D">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PADECIMIENTO -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-file-medical-fill"></i>
+      <h2>Padecimiento Actual</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <label class="form-label">Descripción del Padecimiento</label>
+
+      <input type="text"
+      class="form-control"
+      id="PadecimientoActual"
+      placeholder="Paciente masculino con fractura de tobillo izquierdo posterior a caída durante partido de fútbol. Presenta dolor, inflamación y dificultad para caminar.">
+    </div>
+  </div>
+
+  <!-- EXPLORACIÓN -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-activity"></i>
+      <h2>Exploración Física</h2>
+    </div>
+
+    <div class="hc-card-body">
+
+      <div class="sub-label">Signos Vitales</div>
+
+      <div class="row g-3">
+
+        <div class="col">
+          <div class="vital-box">
+            <span>T.A.</span>
+            <input type="text" id="TA" placeholder="118/76 mmHg">
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="vital-box">
+            <span>Pulso</span>
+            <input type="text" id="Pulso" placeholder="82/min">
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="vital-box">
+            <span>F.R.</span>
+            <input type="text" id="FR" placeholder="19/min">
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="vital-box">
+            <span>Sat O₂</span>
+            <input type="text" id="Sat" placeholder="97%">
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="vital-box">
+            <span>Temp.</span>
+            <input type="text" id="Temp" placeholder="36.8°C">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sub-label mt-4">Exploración Detallada</div>
+
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <label class="form-label">Inspección / Método</label>
+          <input type="text" class="form-control" id="Inspeccion" placeholder="Palpación y exploración física de extremidad inferior">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Instrumental</label>
+          <input type="text" class="form-control" id="Instrumental" placeholder="Martillo de reflejos y férula">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Directo / Indirecto</label>
+          <input type="text" class="form-control" id="Directo" placeholder="Directo">
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DIAGNÓSTICO -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-journal-medical"></i>
+      <h2>Diagnóstico y Plan</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <div class="row g-3">
+
+        <div class="col-12">
+          <label class="form-label">Exámenes de Laboratorio y Gabinete</label>
+          <input type="text" class="form-control" id="ExamenesLab" placeholder="Radiografía confirma fractura no desplazada de tobillo izquierdo.">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Impresión Diagnóstica</label>
+          <input type="text" class="form-control" id="ImpresionDiagnostica" placeholder="Fractura de tobillo izquierdo secundaria a traumatismo deportivo.">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Plan Diagnóstico</label>
+          <input type="text" class="form-control" id="PlanDiagnostico" placeholder="Seguimiento radiológico en 3 semanas">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Plan Terapéutico</label>
+          <input type="text" class="form-control" id="PlanTerapeutico" placeholder="Reposo, inmovilización y antiinflamatorios">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FIRMA -->
+  <div class="hc-card">
+    <div class="hc-card-header">
+      <i class="bi bi-pen-fill"></i>
+      <h2>Nombre y Firma</h2>
+    </div>
+
+    <div class="hc-card-body">
+      <p class="text-muted">Nombre y firma de quien realiza la historia clínica.</p>
+      <div style="border-bottom:2px solid #c5d9ed; margin-top:40px; width:260px;"></div>
+    </div>
+  </div>
+
+  <!-- BOTÓN -->
+  <div class="text-center my-4">
+    <button class="btn btn-enviar">
+      <i class="bi bi-send-fill me-2"></i>Enviar Datos
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="hc-footer">
+    <div class="footer-title">
+      <i class="bi bi-mortarboard-fill me-2"></i>
+      Integrantes del Equipo
+    </div>
+
+    <div>Santiago Alain Gimenez</div>
+    <div>Mario Alberto Aguilar</div>
+    <div>Santhiago Saul Nava Abril</div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
-
-  <p>Dirección de la unidad hospitalaria</p>
-
-<h1>Historia Clínica acorde con la NOM vigente 168-SSA1-1998</h1>
-
-
-
-<table style="width:100%">
-
-  <tr>
-
-    <td>
-
-    <p>Médico tratante:</p>
-
-    <input type="text" id="fname" name="fname" placeholder="Santiago Alain Gimenez Flores">
-
-    </td>
-    
-    <td>
-        <p>Fecha de Historia Clínica:</p>
-        <input type="date" id="fcha" name="fcha" placeholder="22/06/2026">
-
-    </td>
-    
-
-
-  </tr>
-
-  <tr>
-
-    <td>
-        <p>Nombre del paciente:</p>
-        <input type="text" id="name" name="name" placeholder="Bruno Alejandro Solis Murillo">
-
-    </td>
-
-    <td>
-        <p>Edad:</p>
-        <input type="number" id="ed" name="ed" placeholder="19">
-
-        <p>Sexo:</p>
-        <input type="text" id="gen" name="gen" placeholder="Masculino">
-    </td>
-
- 
-
-  </tr>
-
-
-
-    <tr>
-
-    <td>
-        <p>Domicilio:</p>
-        <input type="text" id="dom" name="dom" placeholder="Camino Real 12701">
-    </td>
-
-    <td>
-        <p>Telefono:</p>
-        <input type="text" id="cel" name="cel" placeholder="664-5552-645">
-    </td>
-
- 
-
-  </tr>
-
-
-
-    <tr>
-
-    <td>
-        <p>Datos completos de familiar responsable:</p>
-        <input type="text" id="data" name="datos" placeholder="Sergio Solis Campillo">
-    </td>
-
-    <td>
-        <p>Religión:</p>
-        <input type="text" id="rel" name="rel" placeholder="Catolico">
-    </td>
-
- 
-
-  </tr>
-
-
-
-    <tr>
-
-    <td>
-        <p>Fecha de Nacimiento: </p>
-        <input type="date" id="na" name="na" placeholder="18/12/2006">
-
-    </td>
-
-    <td>
-        <p>Peso:</p>
-        <input type="text" id="ps" name="id" placeholder="67 kg">
-      </td>
-
- 
-
-  </tr>
-
-</table>
-
-
-
-<h2>Antecedentes Ginecoobstetricos:</h2>
-
-<table style="width:100%">
-<tr>
-    <td>Menarca: <input type="text" id="Menarca" name="fname" placeholder="N/A"></td>
-
-    <td>FUR: <input type="text" id="FUR" name="fname" placeholder="N/A"></td>
-    <td>Método anticonceptivo:<input type="text" id="Método anticonceptivo" name="fname" placeholder="N/A"></td>
-  </tr>
-  <tr>
-    <td>G: 3 P:0 C: 3 A: 0</td>
-    <td>Fecha Papanicolau:<input type="text" id="Fecha Papanicolau" name="fname" placeholder="N/A"></td> </td>
-    <td> Fecha Mastografía: <input type="date" id="Fecha Mastografía" name="fname" placeholder="N/A"></td>
-  </tr>
-
-
-</table>
-
-<style>
-table, th, td {
-  border:1px solid black;
-
-}
-</style>
-
-<h2>Medicación Actual:</h2>
-
-<table style="width:100%">
-<tr>
-    <td>Medicamento:<input type="text" id="Medicamento" name="fname" placeholder="Desinflamatorio (Flanax)"></td>
-    <td>Dosis: <input type="text" id="Dosis" name="fname" placeholder="1 Tableta Cada 8 horas"></td>
-    <td>Fecha de inicio: <input type="date" id="FechaInicio" name="fname" placeholder="22/02/2026"></td>
-  </tr>
-  <tr>
-    <td>Suplementos alimentarios <input type="text" id="Suplementos" name="fname" placeholder="Calcio, Sodio, Probioticos,Complejo B, Multivitaminicos."></td>
-    <td></td>
-    <td></td>
-  </tr>
-
-</table>
-
-<style>
-table, th, td {
-  border:1px solid black;
-}
-</style>
-
-<h2>Padecimiento Actual</h2>
-
-<table style="width:100%">
-<tr>
-    <td> <input type="text" id="PadecimientoActual" name="fname" placeholder="Fractura de tobillo con inicio de tratamiento el 22 de febrero de 2026."> </td>
-
-</table>
-
-<style>
-table, th, td {
-  border:1px solid black;
-}
-</style>
-
-<h2>Interrogatorio por Aparatos y Sistemas</h2>
-
-<table style="width:100%">
-<tr>
-    <td>Digestivo:</td>
-    <td><input type="text" id="Digestivo" name="fname" placeholder="N/A"></td>
-</tr>
-<tr>
-    <td>Respiratorio: </td>
-    <td><input type="text" id="Respiratorio" name="fname" placeholder="N/A">.</td>
-</tr>
-<tr>
-    <td>Circulatorio:</td>
-    <td><input type="text" id="Circulatorio" name="fname" placeholder="Hinchazon del tobillo y pie."></td>
-</tr>
-<tr>
-    <td>Musculoesquelético: </td>
-    <td><input type="text" id="Musculoesqueletico" name="fname" placeholder="Traumatismo / Fractura ósea de tobillo (articulación del tobillo)."></td>
-</tr>
-<tr>
-    <td>Nervioso:</td>
-    <td><input type="text" id="Nervioso" name="fname" placeholder="N/A"></td>
-</tr>
-<tr>
-    <td>Urinario:</td>
-    <td><input type="text" id="Urinario" name="fname" placeholder="N/A"></td>
-</tr>
-<tr>
-    <td>Reproductor:</td>
-    <td> <input type="text" id="Reproductor" name="fname" placeholder="N/A"></td>
-</tr>
-<tr>
-    <td>Sentidos: </td>
-    <td><input type="text" id="Sentidos" name="fname" placeholder="N/A">.</td>
-</tr>
-
-</table>
-
-<style>
-table, th, td {
-  border:1px solid black;
-}
-</style>
-
-
-<h2>Exploración Física</h2>
-
-<table style="width:100%">
-<tr>
-    <td>TA: <input type="text" id="TA" name="fname" placeholder="114 /80 mmHg"></td>
-    <td>Pulso:<input type="text" id="Pulso" name="fname" placeholder="79 por min."> </td>
-    <td>FR:<input type="text" id="FR" name="fname" placeholder="21 por min."> </td>
-    <td>Sat: <input type="text" id="Sat" name="fname" placeholder="92%"> </td>
-    <td>Temp:<input type="text" id="Temp" name="fname" placeholder=" 37.8 , oC"> </td>
-  </tr>
-  <tr>
-    <td>Inspección <input type="text" id="Inspeccion" name="fname" placeholder="Auscultación,Palpación,Percusión."> <br><br><input type="text" id="Instrumental" name="fname" placeholder="Instrumental."> <input type="text" id="Directo" name="fname" placeholder="Indirecto."></td>
-</tr>
-
-</table>
-
-<h5>Exámenes de laboratorio y gabinete:</h5>
-<p><input type="text" id="ExamenesLab" name="fname" placeholder="Los laboratorios reflejan una respuesta inflamatoria aguda post-traumática sin complicaciones mayores."></p>
-
-<h5>Impresión diagnóstica:</h5> <p><input type="text" id="ImpresionDiagnostica" name="fname" placeholder="Fractura de tobillo izquierdo de origen traumático."></p>
-
-<h5>Plan Diagnóstico:</h5> <p><input type="text" id="PlanDiagnostico" name="fname" placeholder="Radiografía de tobillo AP, lateral y oblicua."></p>
-
-<h5>Plan Terapéutico:</h5> <p><input type="text" id="PlanTerapeutico" name="fname" placeholder=Analgésico/antiinflamatorio (Naproxeno 550 mg cada 12 hrs con alimentos)"></p>
-
-<h5>Nombre y Firma de quien realiza la historia clínica</h5>
-
-<h5>Integrantes del equipo: <br> Santiago Alain Gimenez <br> Mario Alberto Aguilar <br> Santhiago Saul Nava Abril </h5>
-  
-<button type="button" onclick="enviar()">Enviar datos</button>
-<p id="mensaje"></p>
-
-<script>
-function enviar() {
-
-  // 1. Leer valores de los campos
-  const fechaHistoriaClinica = document.getElementById("fcha").value;
-  const nombrePaciente = document.getElementById("name").value;
-  const edad = document.getElementById("ed").value;
-  const domicilio = document.getElementById("dom").value;
-  const telefono = document.getElementById("cel").value;
-  const familiarResponsable = document.getElementById("data").value;
-  const religion = document.getElementById("rel").value;
-  const fechaNacimiento = document.getElementById("na").value;
-  const peso = document.getElementById("ps").value;
-
-  // 2. Validación de campos vacíos (solo los 10 primeros)
-  if (
-    fechaHistoriaClinica === "" ||
-    nombrePaciente === "" ||
-    edad === "" ||
-    domicilio === "" ||
-    telefono === "" ||
-    familiarResponsable === "" ||
-    religion === "" ||
-    fechaNacimiento === "" ||
-    peso === ""
-  ) {
-    document.getElementById("mensaje").innerText = "⚠️ Completa los campos obligatorios";
-    return;
-  }
-
-  // 3. Empaquetar TODOS los datos del formulario
-  const datos = {
-    medicoTratante: document.getElementById("fname").value,
-    fechaHistoriaClinica,
-    nombrePaciente,
-    edad,
-    sexo: document.getElementById("gen").value,
-    domicilio,
-    telefono,
-    familiarResponsable,
-    religion,
-    fechaNacimiento,
-    peso,
-    menarca: document.getElementById("Menarca").value,
-    FUR: document.getElementById("FUR").value,
-    metodoAnticonceptivo: document.getElementById("Método anticonceptivo").value,
-    fechaPapanicolau: document.getElementById("Fecha Papanicolau").value,
-    fechaMastografia: document.getElementById("Fecha Mastografía").value,
-    medicamento: document.getElementById("Medicamento").value,
-    dosis: document.getElementById("Dosis").value,
-    fechaMedicamento: document.getElementById("FechaInicio").value,
-    suplementos: document.getElementById("Suplementos").value,
-    padecimientoActual: document.getElementById("PadecimientoActual").value,
-    digestivo: document.getElementById("Digestivo").value,
-    respiratorio: document.getElementById("Respiratorio").value,
-    circulatorio: document.getElementById("Circulatorio").value,
-    musculoesqueletico: document.getElementById("Musculoesqueletico").value,
-    nervioso: document.getElementById("Nervioso").value,
-    urinario: document.getElementById("Urinario").value,
-    reproductor: document.getElementById("Reproductor").value,
-    sentidos: document.getElementById("Sentidos").value,
-    TA: document.getElementById("TA").value,
-    pulso: document.getElementById("Pulso").value,
-    FR: document.getElementById("FR").value,
-    sat: document.getElementById("Sat").value,
-    temp: document.getElementById("Temp").value,
-    inspeccion: document.getElementById("Inspeccion").value,
-    examenesLab: document.getElementById("ExamenesLab").value,
-    impresionDiagnostica: document.getElementById("ImpresionDiagnostica").value,
-    planDiagnostico: document.getElementById("PlanDiagnostico").value,
-    planTerapeutico: document.getElementById("PlanTerapeutico").value
-  };
-
-  document.getElementById("mensaje").innerText = "📤 Enviando...";
-
-  fetch("https://script.google.com/macros/s/AKfycbxv7bFjF1fwF-gKDYXnKiApakE820PTT5CN6-TXPkhqhUWUiv19nZhQ97UIxGTx76w/exec", {
-    method: "POST",
-    body: JSON.stringify(datos),
-    mode: "no-cors"
-  })
-    .then(() => {
-      limpiarFormulario();
-      document.getElementById("mensaje").innerText = "✅ Datos enviados correctamente";
-      
-      setTimeout(() => {
-        document.getElementById("mensaje").innerText = "";
-      }, 3000);
-    })
-    .catch((error) => {
-      document.getElementById("mensaje").innerText = "❌ Error al enviar";
-      console.error(error);
-    });
-}
-
-function limpiarFormulario() {
-  const inputs = document.querySelectorAll("input");
-  inputs.forEach(input => {
-    input.value = "";
-  });
-}
-</script>
 </body>
-
 </html>
